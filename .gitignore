@@ -1,0 +1,12 @@
+build/
+cmake-build-*/
+out/
+.DS_Store
+*.swp
+*~
+test/.preprocessor
+test/.test.tmp
+test/.*.out
+test/.*.new
+example/.*.new
+example/.*.out
