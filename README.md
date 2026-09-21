@@ -64,27 +64,28 @@ int main(void) {
 }
 ```
 
-### Key-Value Map Operations (`order/map.h`)
+### Key-Value Map Operations (`order/lib/collections/map.h`)
 ```c
 #include <order/interpreter.h>
-#include <order/map.h>
+#include <order/lib/collections/map.h>
 #include <stdio.h>
 
 int main(void) {
-    // Create map with initial key-value pairs
-    // Note: pairs should not contain inter-token whitespace
-    #define MY_MAP ORDER_PP( \
-        8map(8equal, (1, 10)(2, 20)(3, 30)) \
-    )
+    // Create map and query properties using 8lets
+    int size = ORDER_PP(8lets(
+        (8M, 8map(8equal, (1, 10)(2, 20)(3, 30))),
+        8to_lit(8map_size(8M))
+    )); // 3
 
-    // Query map size
-    int size = ORDER_PP(8to_lit(8map_size(MY_MAP))); // 3
+    int val = ORDER_PP(8lets(
+        (8M, 8map(8equal, (1, 10)(2, 20)(3, 30))),
+        8to_lit(8map_at(2, 8M))
+    )); // 20
 
-    // Lookup value for key 2
-    int val = ORDER_PP(8to_lit(8map_at_val(2, MY_MAP))); // 20
-
-    // Check key existence
-    int has_key = ORDER_PP(8to_lit(8map_has_key(2, MY_MAP))); // 1
+    int has_key = ORDER_PP(8lets(
+        (8M, 8map(8equal, (1, 10)(2, 20)(3, 30))),
+        8to_lit(8if(8map_exists(2, 8M), 1, 0))
+    )); // 1
 
     printf("size: %d, val: %d, has_key: %d\n", size, val, has_key);
     return 0;
